@@ -78,7 +78,7 @@ def get_predictions(model, image, topk=3):
     return class_names, top_probs
 
 
-def evaluate_model(model_name, image_path, epsilon=0.01, alpha=0.001, num_iter=10, pdf=None):
+def evaluate_model(model_name, image_path, epsilon=0.01, alpha=0.003, num_iter=10, pdf=None):
     '''Evaluates the model on the original, FGSM adversarial, and iFGSM adversarial images, including parameters in the PDF.'''
     # Load the model
     model = getattr(models, model_name)(pretrained=True)
@@ -142,6 +142,21 @@ def evaluate_model(model_name, image_path, epsilon=0.01, alpha=0.001, num_iter=1
 
 
 def main():
+    image_path = '_images/bananas1.JPG'  # Update this path
+    with PdfPages('FGSM_output/FGSM_attacks_results_bellpepper.pdf') as pdf:
+        for model_name in ['resnet18', 'densenet121', 'googlenet']:
+            evaluate_model(model_name, image_path, epsilon=0.01, pdf=pdf)
+
+    image_path = '_images/bellpepper.JPG'  # Update this path
+    with PdfPages('FGSM_output/FGSM_attacks_results_bellpepper.pdf') as pdf:
+        for model_name in ['resnet18', 'densenet121', 'googlenet']:
+            evaluate_model(model_name, image_path, epsilon=0.01, pdf=pdf)
+
+    image_path = '_images/pomegranate.jpg'  # Update this path
+    with PdfPages('FGSM_output/FGSM_attacks_results_pomegranate.pdf') as pdf:
+        for model_name in ['resnet18', 'densenet121', 'googlenet']:
+            evaluate_model(model_name, image_path, epsilon=0.01, pdf=pdf)
+
     image_path = '_images/sphaghettisquash.JPG'  # Update this path
     with PdfPages('FGSM_output/FGSM_attacks_results_sphaghettisquash.pdf') as pdf:
         for model_name in ['resnet18', 'densenet121', 'googlenet']:
